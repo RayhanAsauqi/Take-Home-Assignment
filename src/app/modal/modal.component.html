@@ -1,0 +1,39 @@
+<div
+  *ngIf="isVisible"
+  class="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-opacity-70 bg-black z-50"
+>
+  <div class="bg-neutral p-6 rounded-md w-80 md:w-96">
+    <h2 class="text-xl font-bold mb-4 text-neutral-content">Edit Task</h2>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-neutral-content pb-3"
+        >Title</label
+      >
+      <input
+        type="text"
+        [value]="taskName"
+        (input)="handleInputChange($event, 'name')"
+        class="w-full p-3 rounded-lg"
+      />
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-neutral-content pb-3"
+        >Description</label
+      >
+      <input
+        type="text"
+        [value]="taskDescription"
+        (input)="handleInputChange($event, 'description')"
+        class="w-full p-3 rounded-lg"
+      />
+    </div>
+    <div *ngIf="error" class="text-red-500">{{ error }}</div>
+    <div class="flex justify-end gap-2">
+      <button (click)="handleSaveClick()" class="btn btn-primary mr-2">
+        Save
+      </button>
+      <button (click)="handleCancelClick()" class="btn btn-danger">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

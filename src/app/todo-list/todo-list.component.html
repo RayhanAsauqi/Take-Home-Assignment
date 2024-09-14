@@ -1,0 +1,105 @@
+<!-- Modal Edit Task -->
+<app-modal
+  [taskName]="taskName"
+  [taskDescription]="taskDescription"
+  [isVisible]="showModal"
+  (save)="handleSaveTask($event)"
+  (cancel)="handleCancelEdit()"
+></app-modal>
+
+<!-- Todo List -->
+<section class="px-4 md:px-40 py-5">
+  <div class="card md:w-full bg-base-300 shadow-xl px-4 md:px-16">
+    <!-- add todos -->
+    <div class="py-5 grid gap-2 lg:flex lg:items-center lg:justify-center lg:gap-4 lg:py-10">
+      <label for="todoText" class="font-semibold">Title</label>
+      <input
+        type="text"
+        #todoText
+        placeholder="Example Title"
+        class="input input-bordered w-full placeholder:text-slate-600 "
+      />
+      <label for="todoDescription" class="font-semibold">Description</label>
+      <input
+        type="text"
+        #todoDescription
+        placeholder="Example Description"
+        class="input input-bordered w-full placeholder:text-slate-600"
+      />
+      <button
+        (click)="addTask(todoText.value, todoDescription.value)"
+        class="btn btn-accent w-full lg:w-1/5"
+      >
+        Add Todo
+      </button>
+    </div>
+    <!-- show todos -->
+    <div class="pb-5 overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th>Completed</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let todoItem of todoList">
+            <td>
+              <input
+                type="checkbox"
+                class="checkbox checkbox-md"
+                [(checked)]="todoItem.completed"
+                (change)="toggleCompleted(todoItem.id)"
+              />
+            </td>
+            <td>
+              <span
+                [class.completed]="todoItem.completed"
+                [ngStyle]="{
+                  'text-decoration': todoItem.completed
+                    ? 'line-through'
+                    : 'none'
+                }"
+                class="font-bold"
+                >{{ todoItem.title }}</span
+              >
+            </td>
+            <td>
+              <span
+                [class.completed]="todoItem.completed"
+                [ngStyle]="{
+                  'text-decoration': todoItem.completed
+                    ? 'line-through'
+                    : 'none'
+                }"
+                >{{ todoItem.description }}</span
+              >
+            </td>
+            <td class="grid gap-4 md:flex md:gap-2">
+              <button
+                class="btn btn-primary btn-sm  "
+                (click)="showEditModal(todoItem.id, todoItem.title, todoItem.description)"
+              >
+                Edit
+              </button>
+              <button
+                (click)="deleteTask(todoItem.id)"
+                class="btn btn-danger btn-sm"
+                [disabled]="!todoItem.completed"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Alert Message -->
+  <div *ngIf="showAlert" role="alert" class="alert flex justify-center mt-5">
+    <span> Input Todo cannot be empty!</span>
+  </div>
+</section>
